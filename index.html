@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Difference Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 2rem;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin: 1rem 0;
+            padding: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .result {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .added {
+            background-color: #d4edda;
+        }
+        .removed {
+            background-color: #f8d7da;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Difference Checker</h1>
+        <textarea id="text1" placeholder="Enter first text here..."></textarea>
+        <textarea id="text2" placeholder="Enter second text here..."></textarea>
+        <button onclick="checkDifference()">Check Difference</button>
+        <div id="result" class="result"></div>
+    </div>
+    <script>
+        function checkDifference() {
+            const text1 = document.getElementById('text1').value;
+            const text2 = document.getElementById('text2').value;
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '';
+
+            const diff = Diff.diffWords(text1, text2);
+
+            diff.forEach(part => {
+                const span = document.createElement('span');
+                if (part.added) {
+                    span.className = 'added';
+                } else if (part.removed) {
+                    span.className = 'removed';
+                }
+                span.appendChild(document.createTextNode(part.value));
+                resultDiv.appendChild(span);
+            });
+        }
+
+        // Include the diff library
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/diff/5.0.0/diff.min.js';
+        document.head.appendChild(script);
+    </script>
+</body>
+</html>
